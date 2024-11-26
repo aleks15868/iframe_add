@@ -1,0 +1,366 @@
+body{
+    display: flex;
+    justify-content: center;
+    margin: 43px 0;
+
+}
+
+.body *{
+    padding: 0;
+    margin: 0;
+}
+.body{
+    font-family: Poppins, sans-serif;
+    max-width: 1100px;
+    width: 100%;
+    background: #ffffff;
+}
+
+.main_heading{
+    line-height: 51px;
+    font-weight: 500;
+    font-size: 45px;
+    margin-bottom: 38px;
+}
+
+.filter *{
+    color: #555555;
+    outline: none;
+}
+
+.filter{
+    padding: 25px;
+    background: #FBFBFB;
+    margin-bottom: 25px;
+}
+.filter .filter_row_one{
+    margin-bottom: 20px;
+}
+.filter .filter_row_one,.filter .filter_row_two_free{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три колонки одинаковой ширины */
+    gap: 20px;
+}
+
+.filter .priceRange_show span{
+    font-weight: 500;
+}
+.filter .priceRange_show{
+    display: flex;
+}
+.filter .filter_select{
+    width: 100%;
+}
+.filter select{
+    position: relative;
+    width: 100%;
+    padding: 0 15px;
+    height: 50px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 26px;
+}
+
+.filter .filter_select{
+    position: relative;
+    display: inline-block;
+  }
+.filter .filter_select:after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    background: url("/static/image/down_arrow.svg")no-repeat center center;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+  }
+
+
+
+
+.filter #min_area,.filter #max_area{
+    width: 100%;
+    padding: 0 15px;
+    
+}
+.filter #min_area{
+    margin-right: 20px;
+}
+.filter .priceRange{
+    grid-row: 1; 
+    grid-column: 2/4;
+}
+.filter .priceRange_filter_row_one{
+    display: flex;
+    justify-content: space-between;
+}
+.filter .priceRange_filter_row_two{
+    position: relative;
+    cursor: pointer;
+}
+.filter .priceRange_filter_row_two input{
+    position: absolute;
+    width: 100%;
+} 
+  /* Стили для кастомного ползунка с классом .custom-range */
+.filter .custom-range {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    pointer-events: none;
+  } 
+
+.filter .custom-range::-webkit-slider-runnable-track, .filter .custom-range::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    background: transparent;
+  } 
+
+  /* Стили бегунка для WebKit браузеров */
+.filter .custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 9px;
+    width: 9px;
+    background: #282828;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -0.5px;
+    pointer-events: auto;
+  }
+
+  /* Стили бегунка для Firefox */
+.filter .custom-range::-moz-range-thumb, .filter .custom-range::-ms-thumb {
+    height: 9px;
+    width: 9px;
+    background: #282828;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+.filter .hide_minimum_priceRange{
+    position: absolute;
+    width: 100%;
+    top: 2.5px;
+    height: 3px;
+    background: #282828;
+    cursor: pointer;
+}
+.filter .room{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter .room input{
+    width: 44px;
+    height: 44px;
+    text-align: center;
+}
+.filter .room label{
+    margin-right: auto;
+}
+.filter .room #bedroom{
+    margin-right: 10px;
+}
+.filter .room #bathroom{
+    margin-left: 10px;
+}
+.filter .input_max_min{
+    display: flex;
+    justify-content: space-between;
+    grid-row: 2; 
+    width: 100%;
+    grid-column: 1/3;
+}
+
+.filter .filter_buttons{
+    display: flex;
+}
+
+.filter .filter_buttons button{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    height: 50px;
+    background: #282828;
+    color: white;
+    cursor: pointer;
+}
+/* .filter .filter_buttons .buttons_additional_settings{
+    max-width: 48px;
+    width: 100%;
+} */
+.buttons_search{
+    /* margin-left: 20px; */
+    width: 100%;
+}
+.buttons_search img{
+    margin-right: 8px;
+}
+
+.apartment_listing {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три колонки одинаковой ширины */
+    /* grid-template-rows: repeat(3, 1fr);    Три строки одинаковой высоты */
+    justify-content: space-between; /* Распределяет колонки по горизонтали */
+    row-gap: 25px;
+}
+
+.apartment_listing_item{
+    width: 350px;
+    cursor: pointer;
+    margin: auto;
+}
+
+.apartment_image {
+    position: relative;
+    overflow:hidden;
+    width: 350px;
+    height: 233.33px;
+    border-radius: 5px;
+
+ }
+ .apartment_image img {
+    position: absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%,-50%);
+        -ms-transform:translate(-50%,-50%);
+            transform:translate(-50%,-50%);
+    width: 350px;
+    height: 233.33px;
+    -o-object-fit:cover;
+       object-fit:cover;
+ }
+
+.apartament_name{
+    font-size: 26px;
+    line-height: 31px;
+    font-weight: 500;
+    margin-top: 11px;
+    margin-bottom: 5px;
+}
+
+.apartament_address{
+    display: flex;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 23.69px;
+    margin-bottom: 5px;
+}
+.apartament_address img{
+    margin-right: 6px;
+}
+.apartament_about_the_house{
+    display: flex;
+    justify-content: space-between;
+}
+.apartament_characteristic{
+    display: flex;
+    font-size: 14px;
+    line-height: 26px;
+    align-items: flex-end;
+}
+.apartament_characteristic img{
+    margin-right: 5px;
+}
+.apartament_characteristic div:not(:last-child) {
+    margin-right: 15px;
+}
+
+.apartament_price{
+    font-size: 23px;
+    line-height: 28px;
+    font-weight: 500;
+}
+
+.page {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(5, 32px);
+    justify-content: center;
+    color: #737373;
+    font-size: 15px;
+    width: 100%;
+}
+/*grid-column: 1/3;*/
+.page_active{
+    color: #000000;
+}
+.page *{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* .page > *:not(.page_arrow_left) {
+    grid-column: span 1; Перенос всех элементов кроме .f */
+  /* } */
+.page *:nth-child(2){
+    grid-column: 2;
+}
+.page *:nth-child(3){
+    grid-column: 3;
+}
+.page *:nth-child(4){
+    grid-column: 4;
+}
+.page *:nth-child(5){
+    grid-column: 5;
+}
+
+/* From Uiverse.io by aryamitra06 */ 
+
+.iframe_loader_body{
+    width: 100%;
+    height: 100%;
+    grid-column: 1/4;
+    grid-row: 1/4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+.iframe_loader {
+    width: 30px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+  }
+  
+  .iframe_bar {
+    display: inline-block;
+    width: 3px;
+    height: 20px;
+    background-color: #55555555;
+    border-radius: 10px;
+    animation: scale-up4 1s linear infinite;
+  }
+  
+  .iframe_bar:nth-child(2) {
+    height: 35px;
+    margin: 0 5px;
+    animation-delay: .25s;
+  }
+  
+  .iframe_bar:nth-child(3) {
+    animation-delay: .5s;
+  }
+  
+  @keyframes scale-up4 {
+    20% {
+      background-color: hsl(0, 0%, 33%,0.5);
+      transform: scaleY(1.5);
+    }
+  
+    40% {
+      transform: scaleY(1);
+    }
+  }

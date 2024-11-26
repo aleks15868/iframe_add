@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/reset.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style_popup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style_768.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style_390.css') }}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="body">
+        <h1 class="main_heading">Property List Top Filter</h1>
+        <div class="filter">
+            <div class="filter_row_one">
+                <div class="filter_select">
+                    <select name="type" required>
+                        <option value="" disabled selected hidden>Type</option>
+                        {% for option in option_type %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter_select">
+                    <select name="neighbourhood" required>
+                        <option value="" disabled selected hidden>Neighbourhood</option>
+                        {% for option in option_neighbourhood %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter_select">
+                    <select name="city" required>
+                        <option value="" disabled selected hidden>City</option>
+                        {% for option in option_city %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="filter_row_two_free">
+                <div class="room">
+                    <label for="bedroom">Bedroom:</label>
+                    <input type="text" id="bedroom"  name="bedroom" placeholder="">
+                    <label for="bathroom">Bathroom:</label>
+                    <input type="text" id="bathroom"  name="bathroom" placeholder="">
+                </div>
+                <div class="priceRange">
+                    <div class="priceRange_filter_row_one">
+                        <label>Price range:</label>
+                        <div class="priceRange_show">
+                            <div>From: <span>{{ min_str }} $</span></div>
+                            <div>To: <span>{{ max_str }} $</span></div>
+                        </div>
+                    </div>
+                    <div class="priceRange_filter_row_two">
+                        <div class="hide_minimum_priceRange"></div>
+                        <input type="range" class="custom-range" min="{{ min_int }}" max="{{ max_int }}" step="1">
+                        <input type="range" class="custom-range" min="{{ min_int }}" max="{{ max_int }}" step="1">
+                    </div>
+                </div>  
+                <div class="input_max_min">
+                    <input type="text" id="min_area"  name="min_area" placeholder="Min area m2">
+                    <input type="text" id="max_area"  name="max_area" placeholder="Max area m2">   
+                </div>
+                <div class="filter_buttons">
+                    <!-- <button class="buttons_additional_settings"><img src="{{ url_for('static', filename='image/icon_additional_settings.svg') }}"></button> -->
+                    <button class="buttons_search"><img src="{{ url_for('static', filename='image/icon_search.svg') }}">Search Property</button>
+                </div>
+            </div>
+        </div>       
+        <div class="apartment_listing">
+            <div class="iframe_loader_body" style="opacity: 0; display: none; height: 0%;">
+                <div class="iframe_loader">
+                    <span class="iframe_bar"></span>
+                    <span class="iframe_bar"></span>
+                    <span class="iframe_bar"></span>
+                </div>
+            </div>
+        </div>
+        <div class="page">
+            <div class="page_arrow page_arrow_left" style="display: none;"><img src="{{ url_for('static', filename='image/left_arrow.svg') }}"></div>
+            <span class="page_active page_num">1</span>
+            <span class="page_num">2</span>
+            <span class="page_num">3</span>
+            <div class="page_arrow page_arrow_right"><img src="{{ url_for('static', filename='image/right_arrow.svg') }}"></div>
+        </div>
+    </div>
+    <div class="modal" style="opacity: 0; display: none;">
+        <div class="modal_body">
+
+        </div>
+    </div>
+    <div class="modal_slider_window" style="opacity: 0; display: none;">
+        <div class="modal_close_slider_window"><img src="{{ url_for('static', filename='image/close.svg') }}"></div>
+        <div class="modal_body_slider_window">
+            <div class="modal_slider">
+                <div class="slider_main">
+                    <!-- <div class="slider_main_item"><img src="{{ url_for('static', filename='image/house.png') }}"></div>
+                    <div class="slider_main_item"><img src="{{ url_for('static', filename='image/bamboo.jpg') }}"></div> -->
+                </div>
+                <div class="slider_thumbnails">
+                    <!-- <div class="slider_thumbnails_item"><img src="{{ url_for('static', filename='image/house.png') }}"></div>
+                    <div class="slider_thumbnails_item"><img src="{{ url_for('static', filename='image/bamboo.jpg') }}"></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let api_version="{{ api_version }}";    
+    let api_province="{{ api_province }}";
+    let api_key="{{ api_key }}";    
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="{{ url_for('static', filename='js/range.js') }}"></script> 
+<script src="{{ url_for('static', filename='js/additional_functions.js') }}"></script> 
+<script src="{{ url_for('static', filename='js/slider_jquery.js') }}"></script> 
+<script src="{{ url_for('static', filename='js/parser.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popup.js') }}"></script> 
+</html>

@@ -81,7 +81,7 @@ def get_data():
     # Возвращаем JSON
     return response.text
 
-@app.route('/site')
+@app.route('/')
 def index():
     # Выводим все параметры для отладки
     print("Query parameters:", request.args)
@@ -108,12 +108,18 @@ def index():
     option_type = sorted(option_type, key=str.lower)
     option_neighbourhood = sorted(option_neighbourhood, key=str.lower)
     option_city = sorted(option_city, key=str.lower)
+    max_int=0    
+    min_int=0
+    min_str="TBD"
+    max_str="TBD"
+    if (api_response["endPrice"] !=[]):
+        max_int=max([int(key) for key in api_response["endPrice"].keys()])
+        max_str=re.sub(r'(?<=\d)(?=(\d{3})+$)', ',', str(max_int))
+    
+    if (api_response["startPrice"] !=[]):
+        min_int=min([int(key) for key in api_response["startPrice"].keys()])
+        min_str=re.sub(r'(?<=\d)(?=(\d{3})+$)', ',', str(min_int))
 
-    max_int=max([int(key) for key in api_response["endPrice"].keys()])
-    min_int=min([int(key) for key in api_response["startPrice"].keys()])
-    min_str=re.sub(r'(?<=\d)(?=(\d{3})+$)', ',', str(min_int))
-    max_str=re.sub(r'(?<=\d)(?=(\d{3})+$)', ',', str(max_int))
-    # print(option_type)
     return render_template('index.html', 
     option_type=option_type,
     max_int=max_int,
@@ -125,3 +131,6 @@ def index():
     api_version=api_version,
     api_province=api_province,
     api_key=api_key)
+
+if __name__ == '__main__':
+    app.run(debug=True)

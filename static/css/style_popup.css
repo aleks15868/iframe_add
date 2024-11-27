@@ -10,6 +10,24 @@
     justify-content: center;
     overflow: hidden;
 }
+.modal_characteristic::after{
+    position: absolute;
+    content:"Buy";
+    top:-15px;
+    left: 20px;
+    font-size: 13px;
+    line-height: 30px;
+    width: 51px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F9F9F9;
+    border-radius: 5px 5px 0 0;
+}
+.modal_name{
+    padding-top: 21px;
+}
 .modal_body{
     margin: 0 auto;
     position: relative;

@@ -4,6 +4,21 @@ body{
     margin: 43px 0;
 
 }
+.apartment_image::after{
+    position: absolute;
+    content:"Buy";
+    top:20px;
+    left: 0;
+    font-size: 13px;
+    line-height: 30px;
+    width: 51px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffffa3;
+    border-radius: 0 5px 5px 0;
+}
 
 .body *{
     padding: 0;

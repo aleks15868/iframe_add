@@ -4,22 +4,26 @@ body{
     margin: 43px 0;
 
 }
-.apartment_image::after{
+.selling_status{
     position: absolute;
-    content:"Buy";
-    top:20px;
-    left: 0;
+    top:15px;
     font-size: 13px;
     line-height: 30px;
-    width: 51px;
+    /* width: 51px; */
+    padding: 0 8px !important;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #ffffffa3;
+    background: #fafafaa3;
     border-radius: 0 5px 5px 0;
+    z-index: 1;
 }
-
+.policy div{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
 .body *{
     padding: 0;
     margin: 0;
@@ -229,7 +233,6 @@ body{
 .apartment_listing_item{
     width: 350px;
     cursor: pointer;
-    margin: auto;
 }
 
 .apartment_image {
@@ -268,7 +271,12 @@ body{
     font-weight: 400;
     line-height: 23.69px;
     margin-bottom: 5px;
+    text-align: left;
+    height: 47.5px
 }
+
+
+
 .apartament_address img{
     margin-right: 6px;
 }
@@ -282,15 +290,19 @@ body{
     line-height: 26px;
     align-items: flex-end;
 }
+.apartament_characteristic div{
+    display: flex;
+}
 .apartament_characteristic img{
     margin-right: 5px;
 }
 .apartament_characteristic div:not(:last-child) {
-    margin-right: 15px;
+    margin-right: 8px;
 }
 
 .apartament_price{
-    font-size: 23px;
+    width: 100%;
+    font-size: 20px;
     line-height: 28px;
     font-weight: 500;
 }

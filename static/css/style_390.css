@@ -58,10 +58,23 @@
         height: 504px;
     
      }
+     .modal_details .modal_content{
+        width: 150px;
+        text-align: left;
+    }
+    .modal_details .modal_list > div {
+        height: 100%;
+    }
     .modal_image img {
         width: 370px;
         height: 504px;
      }
+     .selling_status_modal{
+        left: 10px;
+     }
+     .modal_characteristic .modal_name{
+        padding-top: 20px;
+    }
      .modal_highlights{
         display: flex;
         justify-content: start;

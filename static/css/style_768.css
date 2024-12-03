@@ -15,7 +15,9 @@
         grid-row: 2; 
         grid-column: 1;
     }
-
+    /* .modal_characteristic .modal_name{
+        padding-top: 0;
+    } */
     .apartment_listing {
         grid-template-columns: auto auto; /* Три колонки одинаковой ширины */
         justify-content: space-between; /* Распределяет колонки по горизонтали */

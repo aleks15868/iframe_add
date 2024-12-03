@@ -10,14 +10,14 @@
     justify-content: center;
     overflow: hidden;
 }
-.modal_characteristic::after{
+.selling_status_modal{
     position: absolute;
-    content:"Buy";
-    top:-15px;
-    left: 20px;
+    top:-20px;
+    left: 18px;
     font-size: 13px;
     line-height: 30px;
-    width: 51px;
+    padding: 0 8px !important;
+    /* width: 51px; */
     height: 30px;
     display: flex;
     justify-content: center;
@@ -25,9 +25,10 @@
     background: #F9F9F9;
     border-radius: 5px 5px 0 0;
 }
-.modal_name{
+
+/* .modal_name{
     padding-top: 21px;
-}
+} */
 .modal_body{
     margin: 0 auto;
     position: relative;
@@ -88,11 +89,25 @@
 .modal_highlights *{
     text-transform: uppercase;
 }
-.modal_vertical_line{
+/* .modal_vertical_line{
     height: 100%;
     border: 1px solid #E8E8E8;
     margin: 0 6px;
+} */
+.modal_highlights > div{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #E8E8E8;
 }
+.modal_highlights > div:first-child{
+    padding-right: 10px;
+    border-right: 1px solid #E8E8E8;
+}
+.modal_highlights > div:last-child{
+    padding-left: 10px;
+    border-right: 0;
+}
+/* .layout__side .portlet-dropzone > div:last-child header */
 
 .modal_info{
     padding: 18px;
@@ -186,7 +201,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: hsla(0, 0%, 100%, 0.75);
+    background: hsla(0, 0%, 0%, 0.75);
     transition: all 0.5s;
 }
 .modal_body_slider_window{
@@ -223,7 +238,6 @@
 }
 
 .slider_thumbnails_item{
-    background: #FFFFFF;
     position: relative;
     overflow: hidden;
     width: 70px;
@@ -242,14 +256,14 @@
        object-fit:cover;
 }
 .slider_thumbnails_item img{
-    opacity: 0.5;
+    filter: brightness(50%);
     cursor: pointer;
 }
 /* .slider_thumbnails .slick-center-active img{
     opacity: 1;
 } */
 .slider_thumbnails .slick-center-custom img{
-    opacity: 1;
+    filter: brightness(100%);
 }
 
 .slider_main .slick-prev, .slider_main .slick-next {
@@ -264,11 +278,11 @@
 }
 .slider_main .slick-prev,.slider_main .slick-prev:hover{
     left: -60px;
-    background: url("/static/image/left_arrow.svg") center center / 16px no-repeat;
+    background: url("/static/image/left_arrow_white.svg") center center / 16px no-repeat;
 }
 .slider_main .slick-next, .slider_main .slick-next:hover {
     right: -60px;
-    background: url("/static/image/right_arrow.svg") center center / 16px no-repeat;
+    background: url("/static/image/right_arrow_white.svg") center center / 16px no-repeat;
 } 
 
 .modal_property_features{
@@ -311,6 +325,8 @@
 }
 .modal_content{
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -328,7 +344,6 @@
 .modal_amenities .modal_list > div{
     width: 326.66px;
 }
-
 
 .modal_property_details{
     padding-top: 51px;
@@ -359,9 +374,17 @@
     justify-content: space-between;
     margin-top: 24px;
 }
+
+.modal_pricing_body .modal_title{
+    font-weight: 500;
+}
+.modal_pricing_body .modal_content{
+    font-weight: 400;
+}
+
 .modal_pricing_one,
 .modal_pricing_two{
-    width: 50%;
+    width: 326.66px;
 }
 .modal_pricing_one div{
     display: flex;
@@ -403,7 +426,6 @@
     width: 100%;
     height: 330px;
     margin-top: 10px;
-    margin-bottom: -30px;
   }
 
 .modal_close, .modal_close_slider_window{
@@ -424,4 +446,15 @@
 .modal_loader_body{
     display: flex;
     justify-content: center;
+}
+
+.policy{
+    margin-top: 30px !important;
+    margin-bottom: -50px;
+}
+.policy p {
+    font-size: 10px;
+    color: #00000040;
+    line-height: normal;
+    padding-bottom: 10px;
 }

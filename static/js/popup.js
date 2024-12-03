@@ -111,6 +111,7 @@ if(array_json["photos"].length !== 0 ){
     array_key=["startPrice",
         "numberOfUnits",
         "averagePricePerSqFeet",
+        "sellingStatus",
         "endPricePerSqFeet",
         "startPricePerSqFeet",
         "minSize",
@@ -118,8 +119,8 @@ if(array_json["photos"].length !== 0 ){
         "salesStarted",
         "numberOfFloorPlans",
         "completionDate",
-        "maxBeds",
-        "maxBaths",
+        "minBeds","maxBeds",
+        "minBaths","maxBaths",
         "parkingCost",
         "parkingMaintainance",
         "lockerMaintainance",
@@ -140,7 +141,7 @@ if(array_json["photos"].length !== 0 ){
     }
     array_json["type"] = array_json["type"].join(",") || replase;
     
-    range_price_json = array_replease_json["startPricePerSqFeet"]+"-"+array_replease_json["endPricePerSqFeet"];
+    range_price_json = array_replease_json["minSize"]+"-"+array_replease_json["maxSize"];
     range_price_json !== replase+"-"+replase ? range_price_json : replase
     for (let index = 0; index < Math.min(array_json["photos"].length,6); index++) {
         if(index ==  Math.min(array_json["photos"].length,6)-1){
@@ -214,6 +215,11 @@ if(array_json["photos"].length !== 0 ){
     });
     deposit_structure=item_deposit.join("</br></br>");
     deposit_amount=item_deposit_amount.join("</br>");
+    replaceSellingStatus={
+        "Selling Now":"Selling",
+        "Registration":"Registration"
+    }
+    array_replease_json["sellingStatus"]=replaceSellingStatus[ array_replease_json["sellingStatus"]];
     if(deposit_structure!==""){
         deposit_structure=`<div>
                                 <div class="modal_title"><span><img src="static/image/icon_deposit_structure.svg"></span>Deposit Structure</div>
@@ -232,22 +238,18 @@ if(array_json["photos"].length !== 0 ){
             </div>
             <div class="modal_close"><img src="static/image/close.svg"></div>
             <div class="modal_info">
+                <div class="selling_status_modal">${array_replease_json["sellingStatus"]}</div>
                 <div class="modal_characteristic">
                     <div class="modal_name">${array_json["name"]}</div>
-                    <div class="modal_price">Prise:<span>${array_replease_json["startPrice"]} $</span></div>
+                    <div class="modal_price">From<span>$${array_replease_json["startPrice"]}</span></div>
                     <div class="modal_line"></div>
                     <div class="modal_highlights">
                         <div>${array_json["type"]}</div>
-                        <div class="modal_vertical_line"></div>
                         <div>${array_replease_json["constructionStatus"]}</div>
-                        <div class="modal_vertical_line"></div>
                         <div>${array_replease_json["numberOfUnits"]} Units</div>
-                        <div class="modal_vertical_line"></div>
                         <div>Property ID:<span>${array_json["objectID"]}</span></div>
-                        <div class="modal_vertical_line"></div>
                         <div>${range_price_json} sqft</div>
-                        <div class="modal_vertical_line"></div>
-                        <div>${array_json["averagePricePerSqFeet"]}/sqft</div>
+                        <div>${array_replease_json["averagePricePerSqFeet"]}$/sqft</div>
                     </div>
                 </div>
                 <div class="modal_additional_information">
@@ -277,7 +279,7 @@ if(array_json["photos"].length !== 0 ){
                             <div class="modal_list">
                                 <div>
                                     <div class="modal_title"><span><img src="/static/image/icon_sq.svg"></span>Size:</div>
-                                    <div class="modal_content">${array_replease_json["minSize"]} - ${array_replease_json["maxSize"]} sq.ft</div>  
+                                    <div class="modal_content">${array_replease_json["minSize"]} - ${array_replease_json["maxSize"]} SQFT</div>  
                                 </div> 
                                 <div>
                                     <div class="modal_title"><span><img src="/static/image/icon_sases_started_date.svg"></span>Sales started date</div>
@@ -293,11 +295,11 @@ if(array_json["photos"].length !== 0 ){
                                 </div> 
                                 <div>
                                     <div class="modal_title"><span><img src="/static/image/icon_bedroom.svg"></span>Bedrooms:</div>
-                                    <div class="modal_content">${array_replease_json["maxBeds"]}</div>   
+                                    <div class="modal_content">${array_replease_json["minBeds"]}-${array_replease_json["maxBeds"]}</div>   
                                 </div> 
                                 <div>
                                     <div class="modal_title"><span><img src="/static/image/icon_bathroom.svg"></span>Bathrooms:</div>
-                                    <div class="modal_content">${array_replease_json["maxBaths"]}</div>   
+                                    <div class="modal_content">${array_replease_json["minBaths"]}-${array_replease_json["maxBaths"]}</div>   
                                 </div> 
                             </div>
                         </div>
@@ -318,13 +320,13 @@ if(array_json["photos"].length !== 0 ){
                                         <div class="modal_content">$${array_replease_json["lockerMaintainance"]}</div>  
                                     </div> 
                                     <div>
-                                        <div class="modal_title"><span><img src="/static/image/icon_maintenance_dee.svg"></span>Maintenance Dee</div>
+                                        <div class="modal_title"><span><img src="/static/image/icon_maintenance_dee.svg"></span>Maintenance Fee (sqft/M)</div>
                                         <div class="modal_content">$${array_replease_json["ccOrMaintFee"]}</div>  
                                     </div> 
                                 </div>
                                 <div class="modal_pricing_two">
-                                    ${deposit_structure}
                                     ${deposit_amount}
+                                    ${deposit_structure}
                                 </div>
                             </div> 
                         </div>
@@ -336,6 +338,10 @@ if(array_json["photos"].length !== 0 ){
                                 class="modal_map" style="border:0;" allowfullscreen="" loading="lazy">
                             </iframe>
                         </iframe>
+                         <div class="policy">
+                            <div><a href="https://www.getbuildify.com/"><img src="/static/image/Buildify_logo.svg"></a></div>
+                            <p>DISCLAIMER</br>Buildify’s database is managed by our data team in collaboration with our network of real estate developers and brokers. While we strive for accuracy, the content on our site is for reference only, and we are not liable for its use or misuse. Prices, sizes, specifications, and promotions are subject to change by the builder without notice. Please contact the developer's sales representatives for the latest information.</p>
+                        </div>
                         </div>
                     </div>
                </div>

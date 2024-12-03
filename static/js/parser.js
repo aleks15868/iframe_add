@@ -102,7 +102,7 @@ function CheckChangingFilters(){
     let element_input_min_area = document.querySelector('.filter input[name="min_area"]');
     let element_input_max_area = document.querySelector('.filter input[name="max_area"]');
     let changing_filters={
-        "type":select_element_type.value,
+        //"type":select_element_type.value,
         "neighbourhood":select_element_neighbourhood.value,
         "cityOrDistrict": select_element_city.value,
         "maxBeds":element_input_bedroom.value,
@@ -144,22 +144,26 @@ async function AnimationCheked(page, flag){
     let count_index = 0;
     json["results"].forEach(element => {
         try {
+            replaceSellingStatus={
+                "Selling Now":"Selling",
+                "Registration":"Registration"
+            }
             let name = "";
             let streetName = "";
-            name = element["name"] && element["name"].length > 22 ? element["name"].slice(0, 20) + "..." : element["name"] || "Unknown";
-            streetName = element["streetName"] && element["streetName"].length > 30 ? element["streetName"].slice(0, 28) + "..." : element["streetName"] || "Unknown";
-    
+            name = element["name"] && element["name"].length > 22 ? element["name"].slice(0, 20) + "..." : element["name"] || "TBD";
+            element["startPrice"] = element["startPrice"].toLocaleString('en-US');
+            element["sellingStatus"] = replaceSellingStatus[element["sellingStatus"]];
             let item = `<div class="apartment_listing_item" data-index="${count_index}">
                             <div class="apartment_image">
+                                <div class="selling_status">${element["sellingStatus"] || 'TDB'}</div>
                                 <img src="${element["coverPhoto"]?.url || 'static/image/default_image.jpg'}" alt="home">
                             </div>
                             <div class="apartament_name">${name}</div>
                             <div class="apartament_address">
-                                <img src="static/image/icon_address.svg">
-                                <span class="apartament_address_name">${streetName}</span>
+                                <span><img src="static/image/icon_address.svg">${element["fullAddress"]}</span>
                             </div>
                             <div class="apartament_about_the_house">
-                                <div class="apartament_price">${element["startPrice"] || "N/A"} $</div>
+                                <div class="apartament_price">From $${element["startPrice"] || "TBD"}</div>
                                 <div class="apartament_characteristic">
                                     <div class="apartament_sq"><img src="static/image/icon_sq.svg"><span>${element["maxSize"] || "0"}m</span></div>
                                     <div class="apartament_bedroom"><img src="static/image/icon_bedroom.svg"><span>${element["maxBeds"] || "0"}</span></div>

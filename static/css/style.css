@@ -64,6 +64,9 @@ body{
 .filter .priceRange_show span{
     font-weight: 500;
 }
+.filter .priceRange_show div:first-child {
+    margin-right: 5px;
+}
 .filter .priceRange_show{
     display: flex;
 }
@@ -82,7 +85,10 @@ body{
     font-size: 15px;
     line-height: 26px;
 }
-
+select option:hover {
+    background-color: #ffcc00;
+    color: white;
+  }
 .filter .filter_select{
     position: relative;
     display: inline-block;
@@ -100,17 +106,6 @@ body{
     pointer-events: none;
   }
 
-
-
-
-.filter #min_area,.filter #max_area{
-    width: 100%;
-    padding: 0 15px;
-    
-}
-.filter #min_area{
-    margin-right: 20px;
-}
 .filter .priceRange{
     grid-row: 1; 
     grid-column: 2/4;
@@ -171,22 +166,58 @@ body{
 }
 .filter .room{
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
 }
-.filter .room input{
-    width: 44px;
-    height: 44px;
-    text-align: center;
+.filter .room .input_button{
+    cursor: pointer;
+    display:  flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #282828;
+    width: 50px;
+    height: 50px;
 }
 .filter .room label{
     margin-right: auto;
 }
-.filter .room #bedroom{
+.filter .room .input_button:nth-child(2){
     margin-right: 10px;
 }
-.filter .room #bathroom{
+.filter .room label:nth-child(3){
     margin-left: 10px;
+}
+.filter .room .popup_room{
+    position: absolute;
+    width: 100%;
+    top: 55px;
+    left: 0;
+    z-index: 3;
+    background: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #282828;
+    padding: 15px;
+}
+.filter .room .popup_room_list{
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 100%;
+}
+.filter .room .popup_room_item{
+    cursor: pointer;
+    display:  flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #282828;
+    width: 40px;
+    height: 40px;
+}
+.filter .room .popup_room_item_active{
+    background:  #282828;
+    color: #ffffff;
 }
 .filter .input_max_min{
     display: flex;
@@ -206,8 +237,10 @@ body{
     line-height: 24px;
     text-align: center;
     height: 50px;
-    background: #282828;
-    color: white;
+    background: #F1F1F1;
+    border: 1px solid #282828;
+    color: #282828;
+    border: 1px solid #F8F8F8;
     cursor: pointer;
 }
 /* .filter .filter_buttons .buttons_additional_settings{
@@ -224,7 +257,7 @@ body{
 
 .apartment_listing {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Три колонки одинаковой ширины */
+    grid-template-columns: repeat(3, auto); /* Три колонки одинаковой ширины */
     /* grid-template-rows: repeat(3, 1fr);    Три строки одинаковой высоты */
     justify-content: space-between; /* Распределяет колонки по горизонтали */
     row-gap: 25px;
@@ -256,6 +289,8 @@ body{
        object-fit:cover;
  }
 
+
+
 .apartament_name{
     font-size: 26px;
     line-height: 31px;
@@ -275,7 +310,96 @@ body{
     height: 47.5px
 }
 
+.filter_type_dropdown{
+    position: relative;
+    width: 50%;
+    font-size: 15px;
+}
 
+.filter_type_dropdown .filter_type_dropdown_button{
+    width: 100%;
+    height: 50px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #767676;
+    padding: 0 15px;
+    cursor: pointer;
+    /* margin-right: 10px; */
+}
+.filter_type_dropdown .filter_type_dropdown_content{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 2;
+    background: #ffffff;
+    border: 1px solid #767676;
+    width: 100%;
+}
+.filter_type_dropdown_content label{
+    position: relative;
+    padding: 3px 15px;
+    cursor: pointer;
+    word-wrap:break-word;
+}
+.filter_type_dropdown_content label:hover{
+    background: #282828;
+    color: #ffffff;
+}
+.filter_type_dropdown_content input[type="checkbox"] {
+    margin-right: 5px;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 0; /* убираем округлости */
+    border: 1px solid #282828;
+    background-color: #ffffff; /* фон черный */
+    cursor: pointer;
+  }
+
+.filter_type_dropdown_content input[type="checkbox"]:checked {
+    background-color: #282828; /* фон при выборе (по желанию можно сделать другим оттенком черного) */
+  }
+  .filter_type_dropdown_content input[type="checkbox"]:checked:hover {
+    background-color: #ffffff; /* фон при выборе (по желанию можно сделать другим оттенком черного) */
+  }
+
+.filter_type_dropdown_content input[type="checkbox"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 7px; /* Отступ сверху для центрирования изображения */
+    left: 16px; /* Отступ слева для центрирования изображения */
+    width: 12px; /* Ширина изображения */
+    height: 12px; /* Высота изображения */
+    background-image: url('/static/image/icon_check_white_input.svg'); 
+    background-size: 12px 12px; /* Устанавливаем размер изображения 16x16 пикселей */
+    background-repeat: no-repeat;
+  }
+  .filter_type_dropdown_content input[type="checkbox"]:checked:hover::before {
+    background-image: url('/static/image/icon_check_input.svg'); /* Путь к вашему изображению */
+  }
+
+.filter .filter_move_in_date{
+    position: relative;
+    width: 50%;
+    margin-left: 20px;
+}
+.apartment_listing_item_fake{
+    width: 350px;
+}
+.filter .filter_move_in_date:after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    background: url("/static/image/down_arrow.svg")no-repeat center center;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+  }
 
 .apartament_address img{
     margin-right: 6px;

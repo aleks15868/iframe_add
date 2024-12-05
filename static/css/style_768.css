@@ -15,6 +15,9 @@
         grid-row: 2; 
         grid-column: 1;
     }
+    .filter .priceRange_show div:first-child {
+        margin-right: 0;
+    }
     /* .modal_characteristic .modal_name{
         padding-top: 0;
     } */

@@ -28,18 +28,20 @@
                     </select>
                 </div>
                 <div class="filter_select">
-                    <select name="neighbourhood" required>
-                        <option value="" disabled selected hidden>Neighbourhood</option>
-                        {% for option in option_neighbourhood %}
+                    <select name="city" required>
+                        <option value="" disabled selected hidden>City</option>
+                        <option data-city="" value="">Any</option>
+                        {% for option in option_city %}
                             <option value="{{ option }}">{{ option }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="filter_select">
-                    <select name="city" required>
-                        <option value="" disabled selected hidden>City</option>
-                        {% for option in option_city %}
-                            <option value="{{ option }}">{{ option }}</option>
+                    <select name="neighbourhood" required>
+                        <option value="" disabled selected hidden>Neighbourhood</option>
+                        <option data-city="" value="">Any</option>
+                        {% for option in option_neighbourhood %}
+                            <option data-city="{{ option.city }}" value="{{ option.neighbourhood }}">{{ option.neighbourhood }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -47,9 +49,31 @@
             <div class="filter_row_two_free">
                 <div class="room">
                     <label for="bedroom">Bedroom:</label>
-                    <input type="text" id="bedroom"  name="bedroom" placeholder="">
+                    <div class="input_button input_bedroom" data-bedroom="1">1+</div>
                     <label for="bathroom">Bathroom:</label>
-                    <input type="text" id="bathroom"  name="bathroom" placeholder="">
+                    <div class="input_button input_bathroom" data-bathroom="1">1+</div>
+                    <div class="popup_room popup_bedroom" style="display: none;">
+                        <div class="popup_room_name">Bedroom</div>
+                        <div class="popup_room_list">
+                            <div class="popup_room_item popup_room_item_active" data-bedroom="1">1+</div>
+                            <div class="popup_room_item" data-bedroom="2">2+</div>
+                            <div class="popup_room_item" data-bedroom="3">3+</div>
+                            <div class="popup_room_item" data-bedroom="4">4+</div>
+                            <div class="popup_room_item" data-bedroom="5">5+</div>
+                            <div class="popup_room_item" data-bedroom="6">6+</div>
+                        </div>
+                    </div>
+                    <div class="popup_room popup_bathroom" style="display: none;">
+                        <div class="popup_room_name">Bathroom</div>
+                        <div class="popup_room_list">
+                            <div class="popup_room_item popup_room_item_active" data-bathroom="1">1+</div>
+                            <div class="popup_room_item" data-bathroom="2">2+</div>
+                            <div class="popup_room_item" data-bathroom="3">3+</div>
+                            <div class="popup_room_item" data-bathroom="4">4+</div>
+                            <div class="popup_room_item" data-bathroom="5">5+</div>
+                            <div class="popup_room_item" data-bathroom="6">6+</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="priceRange">
                     <div class="priceRange_filter_row_one">
@@ -66,8 +90,23 @@
                     </div>
                 </div>  
                 <div class="input_max_min">
-                    <input type="text" id="min_area"  name="min_area" placeholder="Min area m2">
-                    <input type="text" id="max_area"  name="max_area" placeholder="Max area m2">   
+                    <div class="filter_type_dropdown">
+                        <div class="filter_type_dropdown_button"><span>Type:</span><img src="{{ url_for('static', filename='image/down_arrow.svg') }}"></div>
+                        <div class="filter_type_dropdown_content" style="display:none;">
+                            {% for option in option_type %}
+                            <label><input type="checkbox" value="{{ option }}">{{ option }}</label>
+                            {% endfor %}
+                        </div>
+                    </div>                    
+                    <div class="filter_move_in_date">
+                        <select name="move_in_date" required>
+                            <option value="" disabled selected hidden>Move in date</option>
+                            <option value="">Any</option>
+                            {% for option in option_move_in_date %}
+                            <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>  
                 </div>
                 <div class="filter_buttons">
                     <!-- <button class="buttons_additional_settings"><img src="{{ url_for('static', filename='image/icon_additional_settings.svg') }}"></button> -->

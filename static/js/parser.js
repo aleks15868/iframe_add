@@ -92,25 +92,35 @@ function isFiltersEqual(obj1, obj2) {
 }
 
 function CheckChangingFilters(){
-    let select_element_type = document.querySelector('.filter select[name="type"]');
+    let select_element_type = document.querySelectorAll('.filter_type_dropdown_content input[type="checkbox"]');
     let select_element_neighbourhood = document.querySelector('.filter select[name="neighbourhood"]');
+    let select_element_move_in_date = document.querySelector('.filter select[name="move_in_date"]');
     let select_element_city = document.querySelector('.filter select[name="city"]');
-    let element_input_bedroom = document.querySelector('.filter input[name="bedroom"]');
-    let element_input_bathroom = document.querySelector('.filter input[name="bathroom"]');
+    let element_input_bedroom = document.querySelector('.filter .input_bedroom');
+    let element_input_bathroom = document.querySelector('.filter .input_bathroom');
     let element_input_max_min_range = document.querySelectorAll('.filter .priceRange_filter_row_two input');
     //let select_element_temp = document.querySelector('.filter select[name="temp"]');
     let element_input_min_area = document.querySelector('.filter input[name="min_area"]');
     let element_input_max_area = document.querySelector('.filter input[name="max_area"]');
+    let checked_values_type = [];
+    // Перебираем чекбоксы и сохраняем значения отмеченных
+    select_element_type.forEach(checkbox => {
+        if (checkbox.checked) {
+            checked_values_type.push("type:"+'"'+checkbox.value+'"'); // Добавляем значение отмеченного чекбокса
+        }
+    });
+
     let changing_filters={
-        //"type":select_element_type.value,
+        "type":checked_values_type.join(" OR "),
         "neighbourhood":select_element_neighbourhood.value,
         "cityOrDistrict": select_element_city.value,
-        "maxBeds":element_input_bedroom.value,
-        "maxBaths":element_input_bathroom.value,
+        "minBeds":element_input_bedroom.getAttribute('data-bedroom'),
+        "minBaths":element_input_bathroom.getAttribute('data-bathroom'),
         "startPrice":Math.min(element_input_max_min_range[0].value,element_input_max_min_range[1].value),
         "endPrice":Math.max(element_input_max_min_range[0].value,element_input_max_min_range[1].value),
-        "minSize":element_input_min_area.value,
-        "maxSize":element_input_max_area.value
+        "date":select_element_move_in_date.value
+        //"minSize":element_input_min_area.value,
+        //"maxSize":element_input_max_area.value
     }
     const storageKey = 'changing_filters';
 
@@ -144,15 +154,20 @@ async function AnimationCheked(page, flag){
     let count_index = 0;
     json["results"].forEach(element => {
         try {
-            replaceSellingStatus={
-                "Selling Now":"Selling",
-                "Registration":"Registration"
-            }
+            switch (element["sellingStatus"]) {
+                case "Selling Now":
+                    element["sellingStatus"]="Selling";
+                    break;
+                case "Registration":
+                    element["sellingStatus"]="Registration";
+                    break;
+                default:
+                    element["sellingStatus"]=element["sellingStatus"];
+              }
             let name = "";
             let streetName = "";
             name = element["name"] && element["name"].length > 22 ? element["name"].slice(0, 20) + "..." : element["name"] || "TBD";
             element["startPrice"] = element["startPrice"].toLocaleString('en-US');
-            element["sellingStatus"] = replaceSellingStatus[element["sellingStatus"]];
             let item = `<div class="apartment_listing_item" data-index="${count_index}">
                             <div class="apartment_image">
                                 <div class="selling_status">${element["sellingStatus"] || 'TDB'}</div>
@@ -178,7 +193,20 @@ async function AnimationCheked(page, flag){
             // Если нужно продолжать, просто пропускаем текущий элемент.
         }
     });
-    
+    if (count_index<=2){
+        if (window.innerWidth <= 1100)
+            {
+                for (let index = 0; index < 2-count_index; index++) {
+                    div_apartment_listing_item+=`<div class="apartment_listing_item_fake"></div>`;  
+                }
+            }
+        if (window.innerWidth > 1100)
+            {
+                for (let index = 0; index < 3-count_index; index++) {
+                    div_apartment_listing_item+=`<div class="apartment_listing_item_fake"></div>`;  
+                }
+            }
+    }
     // Обработка страниц
     try {
         let page_span = document.querySelectorAll('.page span');

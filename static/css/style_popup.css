@@ -359,10 +359,23 @@
 .modal_property_details .modal_list > div{
     width: 326.66px;
 }
-
-.modal_property_details .modal_list > div:nth-child(6) {
+.modal_property_details .modal_list .modal_property_details_column1 {
     grid-column: 1; 
+} 
+
+.modal_property_details .modal_list .modal_property_details_column2 {
+    grid-column: 2; 
 }  
+
+.modal_property_details .modal_list .modal_property_details_row2 {
+    grid-row:2;
+} 
+.modal_property_details .modal_list .modal_property_details_row3 {
+    grid-row:3;
+}  
+.modal_property_details .modal_list .modal_property_details_row4 {
+    grid-row:4; 
+}   
 
 .modal_pricing{
     padding-top: 51px;
@@ -375,10 +388,10 @@
     margin-top: 24px;
 }
 
-.modal_pricing_body .modal_title{
+.modal_title{
     font-weight: 500;
 }
-.modal_pricing_body .modal_content{
+.modal_content{
     font-weight: 400;
 }
 

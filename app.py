@@ -5,6 +5,7 @@ from flask_cors import CORS
 import json
 import re
 import urllib.parse
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -21,6 +22,39 @@ def request_onload(api_key,api_version,api_province):
     req=requests.get(url, headers=headers)
     return req.text
 
+def paser_api_city(api_key,api_version,api_province,total):
+    count=0
+    array_city=set()
+    while True:
+        url = f"https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page={count}&perPage=1000&retrieveAttributes=neighbourhood%2CcityOrDistrict%2CestimatedCompletionDate%2CminBeds%2CminBaths&referrences=neighbourhood%2CcityOrDistrict%2CestimatedCompletionDate%2CminBeds%2CminBaths"
+        count+=1
+        headers = {
+            "accept": "application/json",
+            "x-api-key": api_key
+        }
+        req = requests.get(url, headers=headers)
+        array_city = {}
+        array_json_city = []
+        move_in_date_array=[]
+        pattern = r'20\d{2}'
+        current_year = datetime.now().year
+        for elem in json.loads(req.text)["results"]:
+            if 'estimatedCompletionDate' in elem and 'minBeds' in elem and 'minBaths' in elem:
+                if elem["minBeds"] is not None and elem["minBaths"] is not None:
+                    if elem["estimatedCompletionDate"] is not None and elem["estimatedCompletionDate"]!="" and elem["minBeds"]>=1 and elem["minBaths"]>=1:
+                        years = re.findall(pattern, elem["estimatedCompletionDate"])
+                        filtered_years = [year for year in years if current_year <= int(year) <= 2199]
+                        move_in_date_array.extend(filtered_years)
+            for item in elem["neighbourhood"]:
+                if item not in array_city:
+                    array_city[item]=[]
+                if 'cityOrDistrict' in elem:
+                    if (elem["cityOrDistrict"] not in array_city[item]) and (elem["cityOrDistrict"] not in [None,""]):
+                        array_city[item].append(elem["cityOrDistrict"])
+        if total < count*1000:
+            for item in array_city.keys():
+                array_json_city.append({"city":",".join(array_city[item]), "neighbourhood":item})
+            return [array_json_city,move_in_date_array]
 @lru_cache(maxsize=256)
 def get_data_from_api(api_version, api_province, api_key):
     url = f"https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page=0&perPage=0"
@@ -52,36 +86,91 @@ def modal_features_get_data():
     # Возвращаем JSON
     return response.text
 
+def parser_is_move_in_ready(api_version,api_province,api_key,end_url,data,page):
+    count = 0
+    move_in_ready_count = 0
+
+    temp_cout = 0
+
+    move_in_ready = []
+    url = f'https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page=0&perPage=1000&filterQuery={end_url}'
+    headers = {
+            "accept": "application/json",
+            "x-api-key": api_key
+        }
+    count+=1
+    response = requests.get(url, headers=headers)
+    response = json.loads(response.text)
+    if 'results' in response:
+        req = response["results"]
+        for item in req:
+            temp_cout+=1
+            if 'estimatedCompletionDate' in item:
+                if item["estimatedCompletionDate"] is not None:
+                    if data in item["estimatedCompletionDate"]:
+                        if move_in_ready_count >= page*9 and  move_in_ready_count<=page*9+8:
+                            move_in_ready.append(item)
+                        move_in_ready_count+=1
+    
+        if response["total"]>1000:
+            while count*1000 < response["total"]:
+                url = f'https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page={count}&perPage=1000&filterQuery={end_url}'
+                headers = {
+                        "accept": "application/json",
+                        "x-api-key": api_key
+                    }
+                response = requests.get(url, headers=headers)
+                response = json.loads(response.text)
+                req = response["results"]
+                for item in req:
+                    if 'estimatedCompletionDate' in item:
+                        if item["estimatedCompletionDate"] is not None:
+                            if data in item["estimatedCompletionDate"]:
+                                if move_in_ready_count >= page*9 and  move_in_ready_count<=page*9+8:
+                                    move_in_ready.append(item)
+                                move_in_ready_count+=1
+    return json.dumps({
+        "results":move_in_ready,
+        "total":move_in_ready_count
+    }, ensure_ascii=False)
+
+
+
+
 @app.route('/api/data', methods=['GET'])
 def get_data():
     # Получаем параметр page из строки запроса
     page = request.args.get('page', type=int)
-    request_array_key = ["neighbourhood","cityOrDistrict","maxBeds","maxBaths","startPrice", "endPrice","minSize","maxSize"]
+    request_array_key = ["type","neighbourhood","cityOrDistrict","minBeds","minBaths","startPrice", "endPrice","date"]
     request_json = {key: request.args.get(key) for key in request_array_key}  
     string_url = f'startPrice >= {request_json["startPrice"]}  AND startPrice <= {request_json["endPrice"]}'
-    if request_json["minSize"] != "":
-        string_url+=f' AND minSize >= {request_json["minSize"]}'
-    if request_json["maxSize"] != "":
-        string_url+=f' AND maxSize <= {request_json["maxSize"]}'
-    for key in ["maxBeds","maxBaths","neighbourhood","cityOrDistrict"]:
+    if request_json["type"] !="":
+        string_url += f' AND {request_json["type"]}'
+    if request_json["minBeds"] != "":
+        string_url+=f' AND minBeds >= {request_json["minBeds"]}'
+    if request_json["minBaths"] != "":
+        string_url+=f' AND minBaths >= {request_json["minBaths"]}'
+    for key in ["neighbourhood","cityOrDistrict"]:
         if request_json[key] != "":
             string_url+=f' AND {key}:"{request_json[key]}"'
 
     if page is None:
         return jsonify({"error": "Parameter 'page' is required"}), 400
-    
     api_version = request.args.get('api_version')
     api_province = request.args.get('api_province')
     api_key = request.args.get('api_key')
 
-    url = f'https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page={page}&perPage=9&filterQuery={urllib.parse.quote(string_url)}'
-    headers = {
-        "accept": "application/json",
-        "x-api-key": api_key
-    }
-    response = requests.get(url, headers=headers)
-    # Возвращаем JSON
-    return response.text
+    if  request_json["date"]=="":
+        url = f'https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page={page}&perPage=9&filterQuery={urllib.parse.quote(string_url)}'
+        headers = {
+            "accept": "application/json",
+            "x-api-key": api_key
+        }
+        response = requests.get(url, headers=headers)
+        # Возвращаем JSON
+        return response.text
+    else:
+        return parser_is_move_in_ready(api_version,api_province,api_key,urllib.parse.quote(string_url),request_json["date"],page)
 
 routes = {
     "on": "Ontario",
@@ -123,21 +212,27 @@ for route in routes.keys():
         if api_data is None:
             return "You entered something incorrectly", 400  # Ошибка, если данные не получены
 
-        api_response = json.loads(request_onload(api_key,api_version,api_province))["facets"]
+        api_response = json.loads(request_onload(api_key,api_version,api_province))
+        total = api_response["total"]
+        api_response = api_response["facets"]
         option_type=[]
         option_neighbourhood=[]
         option_city=[]
-        
-        # Возвращаем простой HTML-код
-        # if "type" in api_response:
-        #     option_type=[key for key in api_response["type"].keys()]
-        #     option_type = sorted(option_type, key=str.lower)
-        if "neighbourhood" in api_response:
-            option_neighbourhood=[key for key in api_response["neighbourhood"].keys()]
-            option_neighbourhood = sorted(option_neighbourhood, key=str.lower)
+        option_move_in_date=[]
+
+        if "type" in api_response:
+            option_type=[key for key in api_response["type"].keys()]
+            option_type = sorted(option_type, key=str.lower)
         if "cityOrDistrict" in api_response:
             option_city=[key for key in api_response["cityOrDistrict"].keys()]   
             option_city = sorted(option_city, key=str.lower)
+        if ("cityOrDistrict" in api_response) and ("neighbourhood" in api_response):
+            option_array=paser_api_city(api_key,api_version,api_province, total)
+            option_neighbourhood=option_array[0]
+            option_neighbourhood = sorted(option_neighbourhood, key=lambda x: x["neighbourhood"])
+            option_move_in_date=set(option_array[1])
+            option_move_in_date = sorted(option_move_in_date, key=str.lower)
+            
         max_int=0    
         min_int=0
         min_str="TBD"
@@ -151,6 +246,7 @@ for route in routes.keys():
         return render_template('index.html', 
             option_type=option_type,
             province=province,
+            option_move_in_date=option_move_in_date,
             max_int=max_int,
             min_int=min_int,
             min_str=min_str,

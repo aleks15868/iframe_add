@@ -47,6 +47,14 @@
         grid-column: 1;
         width: 350px;
     }
+    #max_area{
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+    .filter_type_dropdown{
+        width: 100%;
+    }
 }
 @media (max-width: 740px) {
     .modal_body{
@@ -86,8 +94,20 @@
         margin-bottom: 13px;
     }
 
-   
-     .modal_info{
+    .modal_property_details .modal_list .modal_property_details_column2 {
+        grid-column: 1; 
+    }  
+    
+    .modal_property_details .modal_list .modal_property_details_row2 {
+        grid-row:6;
+    } 
+    .modal_property_details .modal_list .modal_property_details_row3 {
+        grid-row:7;
+    }  
+    .modal_property_details .modal_list .modal_property_details_row4 {
+        grid-row:8; 
+    }  
+    .modal_info{
         padding: 0 10px;
         max-width: 350px;
      }
@@ -157,7 +177,20 @@
     }
     .modal_map {
         margin-bottom: -50px;
-      }
+    }
+    .filter .room .popup_room{
+        width: 100%;
+        padding: 10px;
+    }
+    .filter .room .input_button:nth-child(2){
+        margin-right: 0;
+    }
+    .filter .room label:nth-child(3){
+        margin-left: 0;
+    }
+    .filter .room .popup_bathroom{
+        top:125px
+    }
 }
 @media (max-width: 740px) {
     .modal_body_slider_window{

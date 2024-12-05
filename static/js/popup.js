@@ -127,7 +127,8 @@ if(array_json["photos"].length !== 0 ){
         "ccOrMaintFee",
         "fullAddress",
         "constructionStatus",
-        "totalDeposit"
+        "totalDeposit",
+        "estimatedCompletionDate"
 
     ];
     array_replease_json={};
@@ -215,11 +216,17 @@ if(array_json["photos"].length !== 0 ){
     });
     deposit_structure=item_deposit.join("</br></br>");
     deposit_amount=item_deposit_amount.join("</br>");
-    replaceSellingStatus={
-        "Selling Now":"Selling",
-        "Registration":"Registration"
-    }
-    array_replease_json["sellingStatus"]=replaceSellingStatus[ array_replease_json["sellingStatus"]];
+    let sellingStatus="";
+    switch (array_replease_json["sellingStatus"]) {
+        case "Selling Now":
+            sellingStatus="Selling";
+            break;
+        case "Registration":
+            sellingStatus="Registration";
+            break;
+        default:
+            sellingStatus=array_replease_json["sellingStatus"];
+      }
     if(deposit_structure!==""){
         deposit_structure=`<div>
                                 <div class="modal_title"><span><img src="static/image/icon_deposit_structure.svg"></span>Deposit Structure</div>
@@ -238,7 +245,7 @@ if(array_json["photos"].length !== 0 ){
             </div>
             <div class="modal_close"><img src="static/image/close.svg"></div>
             <div class="modal_info">
-                <div class="selling_status_modal">${array_replease_json["sellingStatus"]}</div>
+                <div class="selling_status_modal">${sellingStatus}</div>
                 <div class="modal_characteristic">
                     <div class="modal_name">${array_json["name"]}</div>
                     <div class="modal_price">From<span>$${array_replease_json["startPrice"]}</span></div>
@@ -277,27 +284,31 @@ if(array_json["photos"].length !== 0 ){
                         <div class="modal_property_details">
                             <h3>Property details</h3>
                             <div class="modal_list">
-                                <div>
+                                <div class="modal_property_details_column1">
                                     <div class="modal_title"><span><img src="/static/image/icon_sq.svg"></span>Size:</div>
                                     <div class="modal_content">${array_replease_json["minSize"]} - ${array_replease_json["maxSize"]} SQFT</div>  
                                 </div> 
-                                <div>
-                                    <div class="modal_title"><span><img src="/static/image/icon_sases_started_date.svg"></span>Sales started date</div>
-                                    <div class="modal_content">${array_replease_json["salesStarted"]}</div>   
+                                <div class="modal_property_details_column2">
+                                    <div class="modal_title"><span><img src="/static/image/icon_selling_status.svg"></span>Selling Status</div>
+                                    <div class="modal_content">${array_replease_json["sellingStatus"]}</div>   
                                 </div> 
-                                <div>
+                                <div class="modal_property_details_column2">
+                                    <div class="modal_title"><span><img src="/static/image/icon_sases_started_date.svg"></span>Estimated Finish Date</div>
+                                    <div class="modal_content">${array_replease_json["estimatedCompletionDate"]}</div>   
+                                </div> 
+                                <div class="modal_property_details_column2">
+                                    <div class="modal_title"><span><img src="/static/image/icon_completation_date.svg"></span>Completition Date</div>
+                                    <div class="modal_content">${array_replease_json["completionDate"]}</div>   
+                                </div> 
+                                <div class="modal_property_details_column1 modal_property_details_row2">
                                     <div class="modal_title"><span><img src="/static/image/icon_number_of_floors.svg"></span>Number of Floors</div>
                                     <div class="modal_content">${array_replease_json["numberOfFloorPlans"]}</div>   
                                 </div> 
-                                <div>
-                                    <div class="modal_title"><span><img src="/static/image/icon_completation_date.svg"></span>Completion Date</div>
-                                    <div class="modal_content">${array_replease_json["completionDate"]}</div>   
-                                </div> 
-                                <div>
+                                <div class="modal_property_details_column1 modal_property_details_row3">
                                     <div class="modal_title"><span><img src="/static/image/icon_bedroom.svg"></span>Bedrooms:</div>
                                     <div class="modal_content">${array_replease_json["minBeds"]}-${array_replease_json["maxBeds"]}</div>   
                                 </div> 
-                                <div>
+                                <div class="modal_property_details_column1 modal_property_details_row4">
                                     <div class="modal_title"><span><img src="/static/image/icon_bathroom.svg"></span>Bathrooms:</div>
                                     <div class="modal_content">${array_replease_json["minBaths"]}-${array_replease_json["maxBaths"]}</div>   
                                 </div> 

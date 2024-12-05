@@ -78,7 +78,7 @@ async function features_parser(object){
         data[key].forEach(item =>{
             result_features+=`<div>
                     <div class="modal_title"><span><img src="${array_json[key][0]}"></span>${array_json[key][1]}</div>  
-                    <div class="modal_content">${item["name"]}</div>  
+                    <div class="modal_content">${item["name"] || "TBD"}</div>  
                 </div>`;
         });
     });

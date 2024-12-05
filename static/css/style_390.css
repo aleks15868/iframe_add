@@ -191,6 +191,11 @@
     .filter .room .popup_bathroom{
         top:125px
     }
+    .filter .filter_move_in_date{
+        width: 100%;
+        margin-top: 20px;
+        margin-left: 0;
+    }
 }
 @media (max-width: 740px) {
     .modal_body_slider_window{

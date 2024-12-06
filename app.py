@@ -175,14 +175,14 @@ def get_data():
 routes = {
     "on": "Ontario",
     "bc": "British Columbia",
-    "ab": "Albertn",
-    "mb": "Manitoba",
-    "nb": "New Brunswick",
-    "nl": "Newfoundland and Labrador",
-    "ns": "Nova Scotia",
-    "pe": "Prince Edward Island",
-    "qc": "Quebec",
-    "sk": "Saskatchewan"
+    # "ab": "Albertn",
+    # "mb": "Manitoba",
+    # "nb": "New Brunswick",
+    # "nl": "Newfoundland and Labrador",
+    # "ns": "Nova Scotia",
+    # "pe": "Prince Edward Island",
+    # "qc": "Quebec",
+    # "sk": "Saskatchewan"
   }
 
 for route in routes.keys():
@@ -221,8 +221,12 @@ for route in routes.keys():
         option_move_in_date=[]
 
         if "type" in api_response:
-            option_type=[key for key in api_response["type"].keys()]
-            option_type = sorted(option_type, key=str.lower)
+            for key in api_response["type"].keys():
+                if key=="Condo":
+                    option_type.append({"name":key,"active":True})
+                else:
+                    option_type.append({"name":key,"active":False})
+            option_type = sorted(option_type, key=lambda x: x["name"])
         if "cityOrDistrict" in api_response:
             option_city=[key for key in api_response["cityOrDistrict"].keys()]   
             option_city = sorted(option_city, key=str.lower)

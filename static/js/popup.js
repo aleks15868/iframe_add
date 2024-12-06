@@ -212,7 +212,8 @@ if(array_json["photos"].length !== 0 ){
             deposit_structure_array.push(`${string["text"]}`);
         });
         item_deposit.push(deposit_structure_array.join("</br>"));
-        item_deposit_amount.push(`• ${array_json["type"]}: ${array_replease_json["totalDeposit"]}%`);
+        deposit_structure_array=[]
+        item_deposit_amount.push(`• ${item["type"]}: ${item["totalDeposit"] || "TBD"}`);
     });
     deposit_structure=item_deposit.join("</br></br>");
     deposit_amount=item_deposit_amount.join("</br>");
@@ -256,7 +257,7 @@ if(array_json["photos"].length !== 0 ){
                         <div>${array_replease_json["numberOfUnits"]} Units</div>
                         <div>Property ID:<span>${array_json["objectID"]}</span></div>
                         <div>${range_price_json} sqft</div>
-                        <div>${array_replease_json["averagePricePerSqFeet"]}$/sqft</div>
+                        <div>$${array_replease_json["averagePricePerSqFeet"]}/sqft</div>
                     </div>
                 </div>
                 <div class="modal_additional_information">

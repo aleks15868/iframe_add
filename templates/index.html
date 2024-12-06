@@ -94,7 +94,10 @@
                         <div class="filter_type_dropdown_button"><span>Type:</span><img src="{{ url_for('static', filename='image/down_arrow.svg') }}"></div>
                         <div class="filter_type_dropdown_content" style="display:none;">
                             {% for option in option_type %}
-                            <label><input type="checkbox" value="{{ option }}">{{ option }}</label>
+                                <label>
+                                    <input type="checkbox" value="{{ option.name }}" {% if option.active %} checked {% endif %}>
+                                    {{ option.name }}
+                                </label>
                             {% endfor %}
                         </div>
                     </div>                    

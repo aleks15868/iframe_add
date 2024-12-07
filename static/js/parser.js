@@ -240,32 +240,39 @@ async function AnimationCheked(page, flag){
 }
 
 async function TurningPages(delta, max_input){
+    console.log("max_input", max_input);
     let page_span = document.querySelectorAll('.page span');
-    page_span.forEach(element => {
-        element.innerHTML = Number(element.innerHTML)+delta;
-        if(element.innerHTML == active_cout_page){
-            element.classList.add("page_active");
+    active_cout_page+=delta
+    if((active_cout_page>1) && (active_cout_page<max_input)){
+        for (let index = -1; index <= 1; index++) {
+            page_span[index+1].innerHTML = active_cout_page+index;
+        }
+    }
+    for (let index = 0; index < 3; index++) {
+        if(page_span[index].innerHTML == active_cout_page){
+            page_span[index].classList.add("page_active");
         }
         else{
-            element.classList.remove("page_active");
+            page_span[index].classList.remove("page_active");
         }
-    });
-    if(delta==1 && page_span[0].innerHTML != 1){
-        document.querySelector('.page_arrow.page_arrow_left').style.display = "flex";
     }
-    if(page_span[0].innerHTML == 1){
-        document.querySelector('.page_arrow.page_arrow_left').style.display = "none";
-    }
+    
     if(max_input>3){
-        if(page_span[0].innerHTML != max_input-2){
+        if(active_cout_page < max_input){
             document.querySelector('.page_arrow.page_arrow_right').style.display = "flex";
         }
         else{
             document.querySelector('.page_arrow.page_arrow_right').style.display = "none";
         } 
-    }
-    else{
+        if(active_cout_page > 1){
+            document.querySelector('.page_arrow.page_arrow_left').style.display = "flex";
+        }
+        else{
+            document.querySelector('.page_arrow.page_arrow_left').style.display = "none";
+        } 
+    }else{
         document.querySelector('.page_arrow.page_arrow_right').style.display = "none";
+        document.querySelector('.page_arrow.page_arrow_left').style.display = "none";
     }
 }
 let iframe_background = document.querySelector('.iframe_loader_body');
@@ -285,31 +292,18 @@ iframe_button.addEventListener('click', async (event) => {
 
 page_arrow_left.addEventListener('click', async (event) => {
     await TurningPages(-1,max_cout_page);
+    await AnimationCheked(active_cout_page-1, false);
 });
 page_arrow_right.addEventListener('click', async (event) => {
     await TurningPages(1,max_cout_page);
+    await AnimationCheked(active_cout_page-1, false);
 });
 page_active.forEach(element => {
     element.addEventListener('click', async (event) => {
         if(active_cout_page != event.target.textContent){
-            active_cout_page = event.target.textContent
-            let page_span = document.querySelectorAll('.page span');
-            if((event.target.textContent>1) && (event.target.textContent<max_cout_page)){
-                for (let index = 0; index < 3; index++) {
-                    if(event.target.textContent == page_span[index].innerHTML){
-                        await TurningPages(index-1,max_cout_page);
-                    }
-                }
-            }
-            page_span.forEach(element => {
-                if(element.innerHTML == active_cout_page){
-                    element.classList.add("page_active");
-                }
-                else{
-                    element.classList.remove("page_active");
-                }
-            });
-            await AnimationCheked(Number(active_cout_page)-1, false);
+            active_cout_page = Number(event.target.textContent)
+            await TurningPages(0,max_cout_page);
+            await AnimationCheked(active_cout_page-1, false);
         }
     });
 });

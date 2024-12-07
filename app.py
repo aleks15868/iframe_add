@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 def request_onload(api_key,api_version,api_province):
-    url = f"https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page=0&perPage=0&facets=type%2Cneighbourhood%2CcityOrDistrict%2CendPrice%2CstartPrice"
+    url = f"https://api.getbuildify.com/{api_version}/{api_province}/search_listings?page=0&perPage=0&facets=type%2Cneighbourhood%2CcityOrDistrict%2CstartPrice&filterQuery=minBeds%20%3E%3D%201%20AND%20minBaths%20%3E%3D%201%20"
 
     headers = {
         "accept": "application/json",
